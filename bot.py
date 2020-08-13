@@ -50,4 +50,17 @@ async def _8ball(ctx, *, question):     #asterick will take multiple arguments a
                  "Very doubtful."]
     await ctx.send(f"Question: {question}\nAnswer: {random.choice(responses)}")
 
-client.run("NzQzMjg1ODY4Mjg1OTE5MjYy.XzSc6A.z012CFBK3yDELEeBqFcE-BUfh7k")
+@client.command()
+async def clear(ctx, amount=5):         #Very basic way, will need to learn how to deal 0 or checking permissions
+        await ctx.channel.purge(limit = amount)
+
+@client.command()
+async def kick(ctx, member : discord.Member, *, reason = None): #Asterick, all parameters after members and stacks up to reason
+    await member.kick(reason = reason)
+
+@client.command()
+async def ban(ctx, member : discord.Member, *, reason = None): #Asterick, all parameters after members and stacks up to reason
+    await member.ban(reason = reason)
+
+
+client.run("")
