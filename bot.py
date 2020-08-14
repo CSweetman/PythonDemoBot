@@ -61,6 +61,18 @@ async def kick(ctx, member : discord.Member, *, reason = None): #Asterick, all p
 @client.command()
 async def ban(ctx, member : discord.Member, *, reason = None): #Asterick, all parameters after members and stacks up to reason
     await member.ban(reason = reason)
+    await ctx.send(f"Banned {member.mention}")
 
+@client.command()
+async def unban(ctx, *, member):   #this member is different, cant mention them in the server. Will need name (why * is needed) 
+    banned_users = await ctx.guild.bans()
+    member_name, member_discriminator = member.split('#')
+    
+    for ban_entry in banned_users:
+        user = ban_entry.user
 
+        if(user.name, user.discriminator) == (member_name, member_discriminator):
+            await ctx.guild.unban(user)
+            await ctx.send(f"Unbanned {user.mention}")
+            return
 client.run("")
