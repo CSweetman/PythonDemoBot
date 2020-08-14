@@ -1,10 +1,23 @@
 import discord
 import os
 import random
-from discord.ext import commands
+from discord.ext import commands, tasks
+from itertools import cycle
 
 
 client = commands.Bot(command_prefix = '.')
+status = cycle(['Status 1', 'Status 2'])
+
+
+#Events
+@client.event
+async def on_ready():
+    change_status.start()
+    print('Bot is online')
+
+@tasks.loop(seconds=10)
+async def change_status():
+    await client.change_presence(activity = discord.Game(next(status)))
 
 #cogs: Organize code/classes to divide commands and events to different files
 @client.command()
@@ -24,15 +37,5 @@ for filename in os.listdir("./cogs"):
     if filename.endswith('.py'):
         client.load_extension(f"cogs.{filename[:-3]}")
 
-"""
-#events are piece of code that runs when a specific action that has happened
-@client.event   #takes variable client from above, declarator saying that function are events
-async def on_member_join(member):
-    print(f'{member} has joined a server.')
-
-@client.event
-async def on_member_remove(member):
-    print(f'{member} has left a server')
-"""
 
 client.run("")

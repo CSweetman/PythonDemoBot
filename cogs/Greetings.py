@@ -8,10 +8,6 @@ class Greetings(commands.Cog):     #inherit from commands.cog
         self.client = client
 
     #Events
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print('Bot is online')
-
     @commands.Cog.listener()   #takes variable client from above, declarator saying that function are events
     async def on_member_join(self, member):
         print(f'{member} has joined a server.')
