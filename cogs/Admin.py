@@ -5,11 +5,12 @@ class Admin(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    """
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Please pass in all required arguments.")
-
+    """
     @commands.command()
     async def clear(self, ctx, amount : int):         #Very basic way, will need to learn how to deal 0 or checking permissions, : int is to specify an int
         await ctx.channel.purge(limit = amount)
@@ -17,7 +18,6 @@ class Admin(commands.Cog):
     @commands.command()
     async def at(self, ctx, member : discord.Member):
         await ctx.send(f"Hello {member.mention}")
-
 
 
     @commands.command()
@@ -43,6 +43,12 @@ class Admin(commands.Cog):
                 await ctx.send(f"Unbanned {user.mention}")
                 return
     
-    
+    @clear.error
+    async def load_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send("Please specify the amount of messages to clear")    
+
+
+
 def setup(client):
     client.add_cog(Admin(client))

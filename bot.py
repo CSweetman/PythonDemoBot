@@ -15,6 +15,14 @@ async def on_ready():
     change_status.start()
     print('Bot is online')
 
+#Handles all events in a given file
+"""
+@client.event
+async def on_command_error(ctx,error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please pass in all required arguments")
+"""
+
 @tasks.loop(seconds=10)
 async def change_status():
     await client.change_presence(activity = discord.Game(next(status)))
@@ -37,5 +45,10 @@ for filename in os.listdir("./cogs"):
     if filename.endswith('.py'):
         client.load_extension(f"cogs.{filename[:-3]}")
 
+#Error declarator for specific functions
+@load.error
+async def load_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please specify what cog to load")
 
-client.run()
+client.run("")
